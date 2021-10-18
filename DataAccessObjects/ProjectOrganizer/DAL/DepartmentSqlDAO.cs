@@ -47,12 +47,10 @@ namespace ProjectOrganizer.DAL
                     SqlCommand command = new SqlCommand(SqlInsert, conn);
                     command.Parameters.AddWithValue("@name", newDepartment.Name);
 
-                    command.ExecuteNonQuery();
                     int id = Convert.ToInt32(command.ExecuteScalar());
 
                     return id;
                 }
-
             }
             catch (SqlException ex)
             {
