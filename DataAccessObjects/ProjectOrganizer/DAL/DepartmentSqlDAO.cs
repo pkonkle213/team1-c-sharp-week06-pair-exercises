@@ -11,7 +11,7 @@ namespace ProjectOrganizer.DAL
 
         private const string SqlInsert =
             "INSERT INTO department (name) " +
-            "VALUES (@name);";
+            "VALUES (@name); SELECT @@IDENTITY;";
 
         private const string SqlUpdate =
             "UPDATE department SET name = @name WHERE departnment_id = @departnment_id;";

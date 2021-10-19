@@ -15,7 +15,7 @@ namespace ProjectOrganizer.DAL
 
         private const string SqlRemove =
             "DELETE FROM project_employee " +
-            "WHERE project_id = @project_id AND employeeId = @employeeId;";
+            "WHERE project_id = @project_id AND employee_Id = @employee_Id;";
 
         private const string SqlAssign =
             "INSERT INTO project_employee (project_id, employee_id) " +
@@ -23,7 +23,7 @@ namespace ProjectOrganizer.DAL
 
         private const string SqlInsertProject =
             "INSERT INTO project (name,from_date,to_date) " +
-            "VALUES (@name,@from_date,@to_date);";
+            "VALUES (@name,@from_date,@to_date); SELECT @@IDENTITY;"; // Using SELECT @@IDENTITY to 'save' the last row added
 
         // Single Parameter Constructor
         public ProjectSqlDAO(string dbConnectionString)
