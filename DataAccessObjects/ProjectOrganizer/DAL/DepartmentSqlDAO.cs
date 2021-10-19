@@ -14,7 +14,7 @@ namespace ProjectOrganizer.DAL
             "VALUES (@name); SELECT @@IDENTITY;";
 
         private const string SqlUpdate =
-            "UPDATE department SET name = @name WHERE departnment_id = @departnment_id;";
+            "UPDATE department SET name = @name WHERE department_id = @department_id;";
 
         // Single Parameter Constructor
         public DepartmentSqlDAO(string dbConnectionString)

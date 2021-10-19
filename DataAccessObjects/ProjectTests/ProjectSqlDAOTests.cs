@@ -66,7 +66,7 @@ namespace ProjectTests
             int result = dao.CreateProject(p);
 
             //Assert
-            Assert.IsTrue(result > 0);
+            Assert.IsTrue(result > 1);
         }
 
     }
