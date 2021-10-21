@@ -71,45 +71,60 @@ namespace Capstone
             {
                 Console.WriteLine("Which venue would you like to view?");
                 //Call a method to form a list of available venues
-                IEnumerable<Venue> venues = venueDAO.GetVenues();
+                List<Venue> venues = venueDAO.GetVenues();
                 //Display each venue by a foreach(List<Venue> venue in venues){} loop
-                foreach (Venue venue in venues)
+                for (int i = 0; i < venues.Count; i++)
                 {
-                    Console.WriteLine($"{venue.ID}) {venue.Name}");
+                    Console.WriteLine($"{i+1}) {venues[i].Name}");
                 }
-
                 Console.WriteLine("R) Return to Previous Screen");
+                Console.WriteLine();
                 string answer = Console.ReadLine();
+                Console.Clear();
+                int answerI;
 
                 if (answer.ToLower() == "r")
                 {
                     quit = true;
                 }
+                else if (!int.TryParse(answer,out answerI))
+                {
+                    Console.WriteLine("Please try again");
+
+                }
                 else
                 {
-                    //Takes the ID entered by the user, converts it to a number, and displays the information accordingly?
+                    //Takes the ID entered by the user, converts it to a number, and displays the information accordingly
+                    ViewVenueDetails(venues[answerI - 1]);
                 }
             }
         }
 
         public void ViewVenueDetails(Venue venue)
-
         {
+
             Console.WriteLine(venue.Name);
-            Console.WriteLine($"Location: {venue.City_ID}"); //fix this
-            Console.WriteLine($"Categories: "); //fix this
+            venue = venueDAO.GetSpecificVenue(venue);
+            Console.WriteLine($"Location: {venue.City_Name}, {venue.State_Abbreviation}");
+            List<string> categories = venueDAO.GetCategories(venue);
+            Console.Write($"Categories: ");
+            foreach (string item in categories)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine();
             Console.WriteLine(venue.Description);
+            Console.WriteLine();
 
             bool quit = false;
             while (!quit)
             {
-
                 Console.WriteLine("What would you like to do next?");
                 Console.WriteLine("1) View Spaces");
                 Console.WriteLine("2) Search for Reservation");
                 Console.WriteLine("R) Return to Previous Screen");
+                Console.WriteLine();
                 string answer = Console.ReadLine();
-
 
                 if (answer.ToLower() == "r")
                 {
