@@ -73,7 +73,7 @@ namespace Capstone
                 //Call a method to form a list of available venues
                 IEnumerable<Venue> venues = venueDAO.GetVenues();
                 //Display each venue by a foreach(List<Venue> venue in venues){} loop
-                foreach(Venue venue in venues)
+                foreach (Venue venue in venues)
                 {
                     Console.WriteLine($"{venue.ID}) {venue.Name}");
                 }
@@ -91,5 +91,33 @@ namespace Capstone
                 }
             }
         }
+
+        public void ViewVenueDetails(Venue venue)
+
+        {
+            Console.WriteLine(venue.Name);
+            Console.WriteLine($"Location: {venue.City_ID}"); //fix this
+            Console.WriteLine($"Categories: "); //fix this
+            Console.WriteLine(venue.Description);
+
+            bool quit = false;
+            while (!quit)
+            {
+
+                Console.WriteLine("What would you like to do next?");
+                Console.WriteLine("1) View Spaces");
+                Console.WriteLine("2) Search for Reservation");
+                Console.WriteLine("R) Return to Previous Screen");
+                string answer = Console.ReadLine();
+
+
+                if (answer.ToLower() == "r")
+                {
+                    quit = true;
+                }
+            }
+
+        }
+
     }
 }
