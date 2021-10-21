@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Capstone.Models;
+using Capstone.DAL;
 
 namespace Capstone
 {
@@ -33,8 +35,61 @@ namespace Capstone
 
         public void Run()
         {
-            Console.WriteLine("Reached the User Interface.");
-            Console.ReadLine();
+            Console.WriteLine("Welcome to Excelsior Venues!");
+            Console.WriteLine();
+
+            bool quit = false;
+            while (!quit)
+            {
+                Console.WriteLine("What would you like to do?");
+                Console.WriteLine("1) List Venues");
+                Console.WriteLine("Q) Quit");
+
+                string answer = Console.ReadLine();
+
+                if (answer == "1")
+                {
+                    ViewVenues();
+                }
+                else if (answer.ToLower() == "q")
+                {
+                    quit = true;
+                }
+                else
+                {
+                    Console.WriteLine("Please try reading the instructions and not being a jerk.");
+                    Console.WriteLine();
+                }
+            }
+        }
+
+        public void ViewVenues()
+        {
+            Console.Clear();
+            bool quit = false;
+            while (!quit)
+            {
+                Console.WriteLine("Which venue would you like to view?");
+                //Call a method to form a list of available venues
+                IEnumerable<Venue> venues = venueDAO.GetVenues();
+                //Display each venue by a foreach(List<Venue> venue in venues){} loop
+                foreach(Venue venue in venues)
+                {
+                    Console.WriteLine($"{venue.ID}) {venue.Name}");
+                }
+
+                Console.WriteLine("R) Return to Previous Screen");
+                string answer = Console.ReadLine();
+
+                if (answer.ToLower() == "r")
+                {
+                    quit = true;
+                }
+                else
+                {
+                    //Takes the ID entered by the user, converts it to a number, and displays the information accordingly?
+                }
+            }
         }
     }
 }
