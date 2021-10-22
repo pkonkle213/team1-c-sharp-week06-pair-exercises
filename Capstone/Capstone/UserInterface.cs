@@ -27,10 +27,13 @@ namespace Capstone
 
         private readonly VenueDAO venueDAO;
 
+        private readonly SpacesDAO spacesDAO;
+
         public UserInterface(string connectionString)
         {
             this.connectionString = connectionString;
             venueDAO = new VenueDAO(connectionString);
+            spacesDAO = new SpacesDAO(connectionString);
         }
 
         public void Run()
@@ -130,9 +133,56 @@ namespace Capstone
                 {
                     quit = true;
                 }
+                else if (answer == "1")
+                {
+                    ListVenueSpace(venue);
+                }
+                else if (answer == "2")
+                {
+                    
+                }
+                else
+                {
+                    Console.Write("No you are wrong sir, please try again! ");
+                }
+                        
             }
 
         }
+
+        public void ListVenueSpace(Venue venue)
+        {
+            Console.Clear();
+            Console.WriteLine(venue.Name + " Spaces");
+            List<Spaces> spaces = spacesDAO.GetSpaces(venue);
+            const int padName = 20;
+            const int padOpen = 7;
+            const int padClose = 7;
+            const int padRate = 15;
+            Console.WriteLine("     "+"Name".PadRight(padName) + "Open".PadRight(padOpen) + "Close".PadRight(padClose) + "  Daily Rate".PadRight(padRate) + "   Max. Occupancy");
+            for (int i = 0; i < spaces.Count; i++)
+            {
+                Console.WriteLine($"#{i + 1}) {spaces[i].Name.PadRight(padName)} {spaces[i].From_Month.PadRight(padOpen)} {spaces[i].To_Month.PadRight(padClose)} {spaces[i].Daily_Rate.ToString("C").PadRight(padRate)} {spaces[i].Max_Occupancy}");
+            }
+            
+            bool quit = false;
+            while (!quit)
+            {
+                Console.WriteLine();
+                Console.WriteLine("What would you like to do next?");
+                Console.WriteLine("1) Reserve a Space");
+                Console.WriteLine("R) Return to Previous Screen");
+                Console.WriteLine();
+                string answer = Console.ReadLine();
+
+                if (answer.ToLower() == "r")
+                {
+                    quit = true;
+                }
+
+            }
+        }
+
 
     }
 }
