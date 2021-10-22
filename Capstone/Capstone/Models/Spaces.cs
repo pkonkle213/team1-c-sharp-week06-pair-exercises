@@ -13,7 +13,7 @@ namespace Capstone.Models
         public string Name { get; set; }
         public int Open_From { get; set; }
         public int Open_To { get; set; }
-        public bool Is_Accessible { get; set; }
+        public string Is_Accessible { get; set; }
         public decimal Daily_Rate { get; set; }
         public int Max_Occupancy { get; set; }
         public string From_Month

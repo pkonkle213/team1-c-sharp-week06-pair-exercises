@@ -21,10 +21,6 @@ namespace Capstone.Models
             }
         }
 
-        public int SubmitReservation(int spaceID, string attendees, DateTime fromDate, int days)
-        {
-            return 69;
-        }
 
     }
 
