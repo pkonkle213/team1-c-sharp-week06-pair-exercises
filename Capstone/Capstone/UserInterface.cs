@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Capstone.Models;
-using Capstone.DAL;
 
 namespace Capstone
 {
@@ -78,7 +77,7 @@ namespace Capstone
                 //Display each venue by a foreach(List<Venue> venue in venues){} loop
                 for (int i = 0; i < venues.Count; i++)
                 {
-                    Console.WriteLine($"{i+1}) {venues[i].Name}");
+                    Console.WriteLine($"{i + 1}) {venues[i].Name}");
                 }
                 Console.WriteLine("R) Return to Previous Screen");
                 Console.WriteLine();
@@ -90,7 +89,7 @@ namespace Capstone
                 {
                     quit = true;
                 }
-                else if (!int.TryParse(answer,out answerI))
+                else if (!int.TryParse(answer, out answerI))
                 {
                     Console.WriteLine("Please try again");
 
@@ -111,6 +110,9 @@ namespace Capstone
             Console.WriteLine($"Location: {venue.City_Name}, {venue.State_Abbreviation}");
             List<string> categories = venueDAO.GetCategories(venue);
             Console.Write($"Categories: ");
+
+            //WHAT IF THERE AREN'T ANY CATEGORIES?!?!?
+
             foreach (string item in categories)
             {
                 Console.WriteLine(item);
@@ -139,13 +141,13 @@ namespace Capstone
                 }
                 else if (answer == "2")
                 {
-                    
+                    Console.WriteLine("This function has yet to be completed.");
                 }
                 else
                 {
                     Console.Write("No you are wrong sir, please try again! ");
                 }
-                        
+
             }
 
         }
@@ -159,12 +161,12 @@ namespace Capstone
             const int padOpen = 7;
             const int padClose = 7;
             const int padRate = 15;
-            Console.WriteLine("     "+"Name".PadRight(padName) + "Open".PadRight(padOpen) + "Close".PadRight(padClose) + "  Daily Rate".PadRight(padRate) + "   Max. Occupancy");
+            Console.WriteLine("     " + "Name".PadRight(padName) + "Open".PadRight(padOpen) + "Close".PadRight(padClose) + "  Daily Rate".PadRight(padRate) + "   Max. Occupancy");
             for (int i = 0; i < spaces.Count; i++)
             {
                 Console.WriteLine($"#{i + 1}) {spaces[i].Name.PadRight(padName)} {spaces[i].From_Month.PadRight(padOpen)} {spaces[i].To_Month.PadRight(padClose)} {spaces[i].Daily_Rate.ToString("C").PadRight(padRate)} {spaces[i].Max_Occupancy}");
             }
-            
+
             bool quit = false;
             while (!quit)
             {
@@ -179,10 +181,71 @@ namespace Capstone
                 {
                     quit = true;
                 }
-
+                else if (answer == "1")
+                {
+                    ReserveSpace(venue);
+                }
+                else
+                {
+                    Console.WriteLine("Please select an offered item. Read the rules, buddy");
+                }
             }
         }
 
+        public void ReserveSpace(Venue venue)
+        {
+            Console.Clear();
+            Console.WriteLine("When do you need the space? ");
+            string answerDate = Console.ReadLine();
+            DateTime fromDate = Convert.ToDateTime(answerDate);
+            Console.WriteLine("How many days will you need the space? ");
+            string answerDays = Console.ReadLine();
+            int days = Convert.ToInt32(answerDays);
+            DateTime endDate = fromDate.AddDays(days);
+            Console.WriteLine("How many people will be in attendance? ");
+            string answerPeople = Console.ReadLine();
+            int occupancy = Convert.ToInt32(answerPeople);
 
+            List<Spaces> available = spacesDAO.GetAvailableSpaces(venue, fromDate, endDate, occupancy);
+            Console.WriteLine("The following spaces are available based on your needs: ");
+            const int padNumber = 10;
+            const int padName = 15;
+            const int padRate = 10;
+            const int padMaxOcc = 10;
+            const int padAccess = 12;
+            Console.WriteLine("Space #".PadRight(padNumber) + "Name".PadRight(padName) + "Daily Rate".PadRight(padRate) + "Max Occup.".PadRight(padMaxOcc) + "Accessible".PadRight(padAccess) + "Total Cost");
+            List<int> acceptableIDs = new List<int>();
+            foreach (Spaces space in available)
+            {
+                Console.WriteLine($"{space.Id.ToString().PadRight(padNumber)} {space.Name.PadRight(padName)} {space.Daily_Rate.ToString("C").PadRight(padRate)} {space.Max_Occupancy.ToString().PadRight(padMaxOcc)} {space.Is_Accessible.ToString().PadRight(padAccess)} {(space.Daily_Rate * days).ToString("C")}");
+                acceptableIDs.Add(space.Id);
+            }
+
+            //Need a DAO to find the spaces available during those dates and can house that
+            //many people. Output should have the space #, name, rate, occupancy, accessable, TOTAL cost
+
+            Console.WriteLine("Which space would you like to reserve (enter 0 to cancel)? ");
+            string answerReserve = Console.ReadLine();
+
+            if (answerReserve != "0")
+            {
+                //test if the answer was legit space: if List<space> contains answer
+                int answerID = Convert.ToInt32(answerReserve);
+
+                if (acceptableIDs.Contains(answerID))
+                {
+                    Console.WriteLine("Who is this reservation for? ");
+                    string answerName = Console.ReadLine();
+                    //Add the reservation to the table
+                    int reservationID = Reservation.SubmitReservation(answerID, answerName,fromDate,days);
+                    Console.WriteLine();
+                    Console.WriteLine("Thanks for submitting your reservation! The details for your event are listed below:");
+                    Console.WriteLine();
+
+                    //Output the confirmation information 
+
+                }
+            }
+        }
     }
 }
