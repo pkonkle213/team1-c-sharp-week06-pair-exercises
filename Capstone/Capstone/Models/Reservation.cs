@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Capstone.Models
 {
+
+    //We were thinking of doing bonus work, but never got around to it.
+    //We also realize some classes here and in category have no references to them
     public class Reservation
     {
         public int Reservation_ID { get; set; }

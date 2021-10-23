@@ -27,6 +27,7 @@ namespace Capstone
         private readonly VenueDAO venueDAO;
 
         private readonly SpacesDAO spacesDAO;
+
         private readonly ReservationDAO reservationDAO;
 
         public UserInterface(string connectionString)
@@ -37,6 +38,7 @@ namespace Capstone
             reservationDAO = new ReservationDAO(connectionString);
         }
 
+        //Main menu that we have
         public void Run()
         {
             Console.WriteLine("Welcome to Excelsior Venues!");
@@ -68,9 +70,10 @@ namespace Capstone
             }
         }
 
+        // Below resolves MVP #1 with a User System.
         public void ViewVenues()
         {
-            Console.Clear();
+            Console.Clear(); // This is clearing the page
             bool quit = false;
             while (!quit)
             {
@@ -78,6 +81,7 @@ namespace Capstone
                 //Call a method to form a list of available venues
                 List<Venue> venues = venueDAO.GetVenues();
                 //Display each venue by a foreach(List<Venue> venue in venues){} loop
+                //Displayed a for loop instead of a foreach so we could reference the index
                 for (int i = 0; i < venues.Count; i++)
                 {
                     Console.WriteLine($"{i + 1}) {venues[i].Name}");
@@ -87,7 +91,7 @@ namespace Capstone
                 string answer = Console.ReadLine();
                 Console.Clear();
                 int answerI;
-
+                //Validating the users input information
                 if (answer.ToLower() == "r")
                 {
                     quit = true;
@@ -105,17 +109,15 @@ namespace Capstone
             }
         }
 
+        //This takes care of MVP 2.1 comment
         public void ViewVenueDetails(Venue venue)
         {
             Console.WriteLine(venue.Name);
-            string hi = venue.State_Abbreviation;
             venue = venueDAO.GetSpecificVenue(venue);
             Console.WriteLine($"Location: {venue.City_Name}, {venue.State_Abbreviation}");
             List<string> categories = venueDAO.GetCategories(venue);
             Console.Write($"Categories: ");
-
-            //WHAT IF THERE AREN'T ANY CATEGORIES?!?!?
-
+            //Listing the categories in the Venue
             foreach (string item in categories)
             {
                 Console.WriteLine(item);
@@ -123,7 +125,7 @@ namespace Capstone
             Console.WriteLine();
             Console.WriteLine(venue.Description);
             Console.WriteLine();
-
+            //Doing another menu and seeing what the User would like
             bool quit = false;
             while (!quit)
             {
@@ -154,7 +156,7 @@ namespace Capstone
             }
 
         }
-
+        
         public void ListVenueSpace(Venue venue)
         {
             Console.Clear();
@@ -165,6 +167,7 @@ namespace Capstone
             const int padClose = 10;
             const int padRate = 20;
             const int padAccess = 15;
+            //This takes care of MVP #2.2 where a space is blocked out for various months
             Console.WriteLine("    " + "Name".PadRight(padName) + "Open".PadRight(padOpen) + "Close".PadRight(padClose) + "Daily Rate".PadRight(padRate) + "Is Accessible".PadRight(padAccess) + "Max. Occupancy");
             for (int i = 0; i < spaces.Count; i++)
             {
@@ -195,7 +198,7 @@ namespace Capstone
                 }
             }
         }
-
+        //This takes care of MVP 3
         public void ReserveSpace(Venue venue)
         {
             try
@@ -216,6 +219,7 @@ namespace Capstone
                 List<Spaces> available = spacesDAO.GetAvailableSpaces(venue, fromDate, endDate, occupancy);
                 if (available.Count == 0)
                 {
+                    //This takes care of MVP 3.3
                     Console.WriteLine("No spaces available please try different venue");
                 }
                 else
@@ -235,6 +239,7 @@ namespace Capstone
                         acceptableIDs.Add(space.Id);
                     }
 
+                    // MVP 4.0
                     Console.WriteLine();
                     Console.Write("Which space would you like to reserve (enter 0 to cancel)? ");
                     string answerReserve = Console.ReadLine();

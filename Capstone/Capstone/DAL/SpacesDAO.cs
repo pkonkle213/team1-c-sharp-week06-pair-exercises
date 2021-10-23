@@ -11,6 +11,7 @@ namespace Capstone.DAL
 
         private readonly string connectionString;
 
+        //Select top 5 takes care of MVP 3.4
         private const string SqlSelectBySpaces =
             "SELECT TOP 5 s.id, s.name,open_from,open_to,daily_rate,is_accessible,max_occupancy " +
             "FROM space s " +
@@ -22,6 +23,7 @@ namespace Capstone.DAL
             "FROM space " +
             "WHERE id = @newId";
 
+        //This takes care of MVP 3.2
         private const string SqlSelectSpaces =
             "SELECT s.id, s.name, s.daily_rate, s.max_occupancy, s.is_accessible, s.open_from, s.open_to " +
             "FROM space s " +
