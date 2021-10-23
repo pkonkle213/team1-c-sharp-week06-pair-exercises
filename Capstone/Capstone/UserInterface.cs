@@ -196,77 +196,98 @@ namespace Capstone
 
         public void ReserveSpace(Venue venue)
         {
-            Console.Clear();
-            Console.Write("When do you need the space? (MM/DD/YYYY) ");
-            string answerDate = Console.ReadLine();
-            DateTime fromDate = Convert.ToDateTime(answerDate);
-            Console.Write("How many days will you need the space? ");
-            string answerDays = Console.ReadLine();
-            int days = Convert.ToInt32(answerDays);
-            DateTime endDate = fromDate.AddDays(days);
-            Console.Write("How many people will be in attendance? ");
-            string answerPeople = Console.ReadLine();
-            int occupancy = Convert.ToInt32(answerPeople);
-            Console.WriteLine();
-            List<Spaces> available = spacesDAO.GetAvailableSpaces(venue, fromDate, endDate, occupancy);
-            Console.WriteLine("The following spaces are available based on your needs: ");
-
-            const int padNumber = 10;
-            const int padName = 30;
-            const int padRate = 15;
-            const int padMaxOcc = 15;
-            const int padAccess = 12;
-            Console.WriteLine("Space #".PadRight(padNumber) + "Name".PadRight(padName) + "Daily Rate".PadRight(padRate) + "Max Occup.".PadRight(padMaxOcc) + "Accessible".PadRight(padAccess) + "Total Cost");
-            List<int> acceptableIDs = new List<int>();
-            foreach (Spaces space in available)
-            {
-                Console.WriteLine($"{space.Id.ToString().PadRight(padNumber)}{space.Name.PadRight(padName)}{space.Daily_Rate.ToString("C").PadRight(padRate)}{space.Max_Occupancy.ToString().PadRight(padMaxOcc)}{space.Is_Accessible.ToString().PadRight(padAccess)}{(space.Daily_Rate * days).ToString("C")}");
-                acceptableIDs.Add(space.Id);
-            }
-
-            if (acceptableIDs.Count == 0)
+            try
             {
 
-            }
-            else
-            {
+                Console.Clear();
+                Console.Write("When do you need the space? (MM/DD/YYYY) ");
+                string answerDate = Console.ReadLine();
+                DateTime fromDate = Convert.ToDateTime(answerDate);
+                Console.Write("How many days will you need the space? ");
+                string answerDays = Console.ReadLine();
+                int days = Convert.ToInt32(answerDays);
+                DateTime endDate = fromDate.AddDays(days);
+                Console.Write("How many people will be in attendance? ");
+                string answerPeople = Console.ReadLine();
+                int occupancy = Convert.ToInt32(answerPeople);
                 Console.WriteLine();
-                Console.Write("Which space would you like to reserve (enter 0 to cancel)? ");
-                string answerReserve = Console.ReadLine();
-
-                if (answerReserve != "0")
+                List<Spaces> available = spacesDAO.GetAvailableSpaces(venue, fromDate, endDate, occupancy);
+                if (available.Count == 0)
                 {
-                    //test if the answer was legit space: if List<space> contains answer
-                    int answerID = Convert.ToInt32(answerReserve);
+                    Console.WriteLine("No spaces avaialbe please try different venue");
+                }
+                else
+                {
+                    Console.WriteLine("The following spaces are available based on your needs: ");
 
-                    if (acceptableIDs.Contains(answerID))
+                    const int padNumber = 10;
+                    const int padName = 30;
+                    const int padRate = 15;
+                    const int padMaxOcc = 15;
+                    const int padAccess = 12;
+                    Console.WriteLine("Space #".PadRight(padNumber) + "Name".PadRight(padName) + "Daily Rate".PadRight(padRate) + "Max Occup.".PadRight(padMaxOcc) + "Accessible".PadRight(padAccess) + "Total Cost");
+                    List<int> acceptableIDs = new List<int>();
+                    foreach (Spaces space in available)
                     {
-                        Console.Write("Who is this reservation for? ");
-                        string answerName = Console.ReadLine();
-                        //Add the reservation to the table
-                        int confirmation = reservationDAO.SubmitReservation(Convert.ToInt32(answerReserve), fromDate, endDate, answerName, Convert.ToInt32(answerPeople));
+                        Console.WriteLine($"{space.Id.ToString().PadRight(padNumber)}{space.Name.PadRight(padName)}{space.Daily_Rate.ToString("C").PadRight(padRate)}{space.Max_Occupancy.ToString().PadRight(padMaxOcc)}{space.Is_Accessible.ToString().PadRight(padAccess)}{(space.Daily_Rate * days).ToString("C")}");
+                        acceptableIDs.Add(space.Id);
+                    }
+
+                    Console.WriteLine();
+                    Console.Write("Which space would you like to reserve (enter 0 to cancel)? ");
+                    string answerReserve = Console.ReadLine();
+
+                    if (answerReserve != "0")
+                    {
+                        //test if the answer was legit space: if List<space> contains answer
+                        try
+                        {
+                            int answerID = Convert.ToInt32(answerReserve);
+
+                            if (acceptableIDs.Contains(answerID))
+                            {
+                                Console.Write("Who is this reservation for? ");
+                                string answerName = Console.ReadLine();
+                                //Add the reservation to the table
+                                int confirmation = reservationDAO.SubmitReservation(Convert.ToInt32(answerReserve), fromDate, endDate, answerName, Convert.ToInt32(answerPeople));
 
 
-                        Console.WriteLine();
-                        Console.WriteLine("Thanks for submitting your reservation! The details for your event are listed below:");
-                        Console.WriteLine();
+                                Console.WriteLine();
+                                Console.WriteLine("Thanks for submitting your reservation! The details for your event are listed below:");
+                                Console.WriteLine();
 
-                        Spaces space = spacesDAO.GetSpecificSpace(answerID);
+                                Spaces space = spacesDAO.GetSpecificSpace(answerID);
 
-                        //Output the confirmation information 
-                        const int pad = 18;
-                        Console.WriteLine("Confirmation #: ".PadLeft(pad) + confirmation);
-                        Console.WriteLine("Venue: ".PadLeft(pad) + venue.Name);
-                        Console.WriteLine("Space: ".PadLeft(pad) + space.Name);
-                        Console.WriteLine("Reserved For: ".PadLeft(pad) + answerName);
-                        Console.WriteLine("Attendees: ".PadLeft(pad) + answerPeople);
-                        Console.WriteLine("Arrival Date: ".PadLeft(pad) + fromDate.ToString("d"));
-                        Console.WriteLine("Depart Date: ".PadLeft(pad) + endDate.ToString("d"));
-                        Console.WriteLine("Total Cost: ".PadLeft(pad) + (space.Daily_Rate * days).ToString("C"));
+                                //Output the confirmation information 
+                                const int pad = 18;
+                                Console.WriteLine("Confirmation #: ".PadLeft(pad) + confirmation);
+                                Console.WriteLine("Venue: ".PadLeft(pad) + venue.Name);
+                                Console.WriteLine("Space: ".PadLeft(pad) + space.Name);
+                                Console.WriteLine("Reserved For: ".PadLeft(pad) + answerName);
+                                Console.WriteLine("Attendees: ".PadLeft(pad) + answerPeople);
+                                Console.WriteLine("Arrival Date: ".PadLeft(pad) + fromDate.ToString("d"));
+                                Console.WriteLine("Depart Date: ".PadLeft(pad) + endDate.ToString("d"));
+                                Console.WriteLine("Total Cost: ".PadLeft(pad) + (space.Daily_Rate * days).ToString("C"));
+                            }
+                        }
+
+                        catch (FormatException ex)
+                        {
+                            Console.WriteLine("Please type a valid a option: " + ex.Message);
+                        }
+
 
                     }
                 }
             }
+
+            catch (FormatException ex)
+            {
+                Console.WriteLine("Please type a valid a option: " + ex.Message);
+            }
+
         }
+
+        
     }
 }

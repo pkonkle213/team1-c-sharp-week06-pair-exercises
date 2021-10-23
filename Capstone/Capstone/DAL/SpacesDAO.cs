@@ -12,7 +12,7 @@ namespace Capstone.DAL
         private readonly string connectionString;
 
         private const string SqlSelectBySpaces =
-            "SELECT s.id, s.name,open_from,open_to,daily_rate,is_accessible,max_occupancy " +
+            "SELECT TOP 5 s.id, s.name,open_from,open_to,daily_rate,is_accessible,max_occupancy " +
             "FROM space s " +
             "INNER JOIN venue v ON v.id=s.venue_id " +
             "WHERE v.id = @id";

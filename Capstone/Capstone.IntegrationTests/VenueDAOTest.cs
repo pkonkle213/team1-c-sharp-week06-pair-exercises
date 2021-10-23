@@ -26,5 +26,28 @@ namespace Capstone.IntegrationTests
             Assert.AreEqual(2, results.Count());
 
         }
+
+        [TestMethod]
+        public void GetCategoiresTest()
+        {
+            //Arrange
+            VenueDAO dao = new VenueDAO(this.ConnectionString);
+            Venue venue = new Venue
+            {
+                ID = 1
+            };
+
+            //Act
+            List<string> results = dao.GetCategories(venue);
+
+            //Assert
+            Assert.IsNotNull(results);
+            Assert.AreEqual(1, results.Count());
+
+        }
     }
+
+      
+
+   
 }
