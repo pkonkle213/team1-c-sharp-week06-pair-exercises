@@ -9,7 +9,7 @@ namespace Capstone.Models
 
 
         public int Id { get; set; }
-        public int Venue_Id { get; set; }
+        //public int Venue_Id { get; set; }
         public string Name { get; set; }
         public int Open_From { get; set; }
         public int Open_To { get; set; }
@@ -20,61 +20,64 @@ namespace Capstone.Models
         {
             get
             {
+                string month;
                 switch (Open_From)
                 {
+
                     case 1:
-                        return "Jan.";
+                        month = "Jan.";
                         break;
 
                     case 2:
-                        return "Feb.";
+                        month = "Feb.";
                         break;
 
                     case 3:
-                        return "Mar.";
+                        month = "Mar.";
                         break;
 
                     case 4:
-                        return "Apr.";
+                        month = "Apr.";
                         break;
 
                     case 5:
-                        return "May.";
+                        month = "May.";
                         break;
 
                     case 6:
-                        return "Jun.";
+                        month = "Jun.";
                         break;
 
                     case 7:
-                        return "Jul.";
+                        month = "Jul.";
                         break;
 
                     case 8:
-                        return "Aug.";
+                        month = "Aug.";
                         break;
 
                     case 9:
-                        return "Sep.";
+                        month = "Sep.";
                         break;
 
                     case 10:
-                        return "Oct.";
+                        month = "Oct.";
                         break;
 
                     case 11:
-                        return "Nov.";
+                        month = "Nov.";
                         break;
 
                     case 12:
-                        return "Dec.";
+                        month = "Dec.";
                         break;
 
                     default:
-                        return " ";
+                        month = " ";
                         break;
 
                 }
+                return month;
             }
         }
 
@@ -82,61 +85,63 @@ namespace Capstone.Models
         {
             get
             {
+                string month;
                 switch (Open_To)
                 {
                     case 1:
-                        return "Jan.";
+                        month = "Jan.";
                         break;
 
                     case 2:
-                        return "Feb.";
+                        month = "Feb.";
                         break;
 
                     case 3:
-                        return "Mar.";
+                        month = "Mar.";
                         break;
 
                     case 4:
-                        return "Apr.";
+                        month = "Apr.";
                         break;
 
                     case 5:
-                        return "May.";
+                        month = "May.";
                         break;
 
                     case 6:
-                        return "Jun.";
+                        month = "Jun.";
                         break;
 
                     case 7:
-                        return "Jul.";
+                        month = "Jul.";
                         break;
 
                     case 8:
-                        return "Aug.";
+                        month = "Aug.";
                         break;
 
                     case 9:
-                        return "Sep.";
+                        month = "Sep.";
                         break;
 
                     case 10:
-                        return "Oct.";
+                        month = "Oct.";
                         break;
 
                     case 11:
-                        return "Nov.";
+                        month = "Nov.";
                         break;
 
                     case 12:
-                        return "Dec.";
+                        month = "Dec.";
                         break;
 
                     default:
-                        return " ";
+                        month = " ";
                         break;
-
                 }
+
+                return month;
             }
         }
     }

@@ -12,7 +12,7 @@ namespace Capstone.Models
         public string City_Name { get; set; }
         public string State_Abbreviation { get; set; }
         public string Description { get; set; }
-        public List<Category> CategoryList { get; set; }
+        //public List<Category> CategoryList { get; set; }
     }
 
 

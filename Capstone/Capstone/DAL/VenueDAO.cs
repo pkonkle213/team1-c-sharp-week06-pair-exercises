@@ -80,7 +80,7 @@ namespace Capstone.DAL
             }
             catch (SqlException ex)
             {
-                Console.WriteLine("Something went wrong in GetSpecificValue " + ex.Message);
+                Console.WriteLine("Unable to read the database:  " + ex.Message);
             }
 
             return venue;
@@ -105,7 +105,7 @@ namespace Capstone.DAL
             }
             catch (SqlException ex)
             {
-                Console.WriteLine("You really like causing exceptions, eh? Screw you! " + ex.Message);
+                Console.WriteLine("Unable to read the database: " + ex.Message);
             }
 
             return categories;

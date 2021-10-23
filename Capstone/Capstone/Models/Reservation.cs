@@ -20,8 +20,5 @@ namespace Capstone.Models
                 //Does this work? Please? Let it?
             }
         }
-
-
     }
-
 }

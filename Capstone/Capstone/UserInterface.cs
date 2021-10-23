@@ -48,6 +48,7 @@ namespace Capstone
                 Console.WriteLine("What would you like to do?");
                 Console.WriteLine("1) List Venues");
                 Console.WriteLine("Q) Quit");
+                Console.WriteLine();
 
                 string answer = Console.ReadLine();
 
@@ -61,7 +62,7 @@ namespace Capstone
                 }
                 else
                 {
-                    Console.WriteLine("Please try reading the instructions and not being a jerk.");
+                    Console.WriteLine("Please select one of the two possible options.");
                     Console.WriteLine();
                 }
             }
@@ -143,11 +144,11 @@ namespace Capstone
                 }
                 else if (answer == "2")
                 {
-                    Console.WriteLine("This function has yet to be completed. This is bonus work and we're not doing it, Matt. Go away.");
+                    Console.WriteLine("This function has yet to be completed. Version 2.0 coming out soon!");
                 }
                 else
                 {
-                    Console.Write("No you are wrong sir, please try again! ");
+                    Console.Write("Please select a valid option.");
                 }
 
             }
@@ -159,14 +160,15 @@ namespace Capstone
             Console.Clear();
             Console.WriteLine(venue.Name + " Spaces");
             List<Spaces> spaces = spacesDAO.GetSpaces(venue);
-            const int padName = 20;
-            const int padOpen = 7;
-            const int padClose = 7;
-            const int padRate = 15;
-            Console.WriteLine("     " + "Name".PadRight(padName) + "Open".PadRight(padOpen) + "Close".PadRight(padClose) + "  Daily Rate".PadRight(padRate) + "   Max. Occupancy");
+            const int padName = 35;
+            const int padOpen = 10;
+            const int padClose = 10;
+            const int padRate = 20;
+            const int padAccess = 15;
+            Console.WriteLine("    " + "Name".PadRight(padName) + "Open".PadRight(padOpen) + "Close".PadRight(padClose) + "Daily Rate".PadRight(padRate) + "Is Accessible".PadRight(padAccess) + "Max. Occupancy");
             for (int i = 0; i < spaces.Count; i++)
             {
-                Console.WriteLine($"#{i + 1}) {spaces[i].Name.PadRight(padName)} {spaces[i].From_Month.PadRight(padOpen)} {spaces[i].To_Month.PadRight(padClose)} {spaces[i].Daily_Rate.ToString("C").PadRight(padRate)} {spaces[i].Max_Occupancy}");
+                Console.WriteLine($"#{i + 1}) {spaces[i].Name.PadRight(padName)}{spaces[i].From_Month.PadRight(padOpen)}{spaces[i].To_Month.PadRight(padClose)}{spaces[i].Daily_Rate.ToString("C").PadRight(padRate)}{spaces[i].Is_Accessible.PadRight(padAccess)}{spaces[i].Max_Occupancy}");
             }
 
             bool quit = false;
@@ -189,7 +191,7 @@ namespace Capstone
                 }
                 else
                 {
-                    Console.WriteLine("Please select an offered item. Read the rules, buddy");
+                    Console.WriteLine("Please select a valid option.");
                 }
             }
         }
@@ -214,7 +216,7 @@ namespace Capstone
                 List<Spaces> available = spacesDAO.GetAvailableSpaces(venue, fromDate, endDate, occupancy);
                 if (available.Count == 0)
                 {
-                    Console.WriteLine("No spaces avaialbe please try different venue");
+                    Console.WriteLine("No spaces available please try different venue");
                 }
                 else
                 {

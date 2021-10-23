@@ -129,7 +129,7 @@ namespace Capstone.DAL
             }
             catch(SqlException ex)
             {
-                Console.WriteLine("I can't go for that " + ex.Message);
+                Console.WriteLine("Unable to read the database: " + ex.Message);
 
             }
 
